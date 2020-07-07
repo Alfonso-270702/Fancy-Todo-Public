@@ -13,12 +13,50 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      User.hasMany(models.Todo, { foreignKey: 'userId'})
     }
   };
   User.init({
-    name: DataTypes.STRING,
-    email: DataTypes.STRING,
-    password: DataTypes.STRING
+    name: {
+      type: DataTypes.STRING,
+      allowNull:false,
+      validate:{
+        notEmpty:{
+          msg: `Name can't be empty`
+        },
+        notNull:{
+          msg: `Can't register because of null`
+        }
+      }
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull:false,
+      validate:{
+        notEmpty:{
+          msg:`email can't be empty`
+        },
+        notNull:{
+          msg: `Can't register because of null`
+        }
+      },
+      unique:{
+        args: true,
+        msg: 'email already exist'
+      }
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull:false,
+      validate:{
+        notEmpty:{
+          msg:`password can't be empty`
+        },
+        notNull:{
+          msg: `Can't register because of null`
+        }
+      }
+    }
   }, {
     sequelize,
     modelName: 'User',

@@ -1,31 +1,35 @@
 const { Todo } = require('../models')
 
 class TodoController{
-    static create(req,res){
+
+    static create(req,res,next){
         const {title,description,status,due_date} = req.body
-        if(!title || !description || !status || !due_date){
-            res.status(400).json({error:`title or description or status or due_date must be filled`})
-        }
-        else{
-            Todo.create({title,description,status,due_date})
-            .then(data=>{
-                res.status(201).json({data})
-            })
-            .catch(err=>{
-                res.status(500).json({error: 'internal server error'})
-            })
-        }
+        let userId = req.userData.id
+        Todo.create({title,description,status,due_date,userId})
+        .then(data=>{
+            res.status(201).json({data})
+        })
+        .catch(err=>{
+            next(err)
+        })
     }
-    static list(req,res){
-        Todo.findAll()
+
+    static list(req,res,next){
+        let userId = req.userData.id
+        Todo.findAll({
+            where:{
+                userId
+            }
+        })
         .then(data=>{
             res.status(200).json({data})
         })
         .catch(err=>{
-            res.status(500).json({error: 'internal server error'})
+            next(err)
         })
     }
-    static findTodo(req,res){
+
+    static findTodo(req,res,next){
         const id = req.params.id
         Todo.findOne({
             where:{
@@ -34,41 +38,37 @@ class TodoController{
         })
         .then(data=>{
             if(!data){
-                res.status(400).json({error: 'todos not found'})
+                throw {msg: 'todos not found',status: 400}
             }
             else{
                 res.status(200).json({data})
             }
         })
         .catch(err=>{
-            res.status(500).json({error: 'internal server error'})
+            next(err)
         })
     }
-    static editOne(req,res){
+
+    static editOne(req,res,next){
         const {title,description,status,due_date} = req.body
-        if(!title || !description || !status || !due_date){
-            res.status(400).json({error:`title or description or status or due_date must be filled`})
-        }
-        else{
-            Todo.update({title,description,status,due_date},{
-                where:{
-                    id: req.params.id
-                }
-            })
-            .then(data=>{
-                if(!data){
-                    res.status(404).json({error: 'ERROR! Not Found'})
-                }
-                else{
-                    res.status(200).json({data})
-                }
-            })
-            .catch(err=>{
-                res.status(500).json({error: 'internal server error'})
-            })
-        }
+        Todo.update({title,description,status,due_date},{
+            where:{
+                id: req.params.id
+            }
+        })
+        .then(data=>{
+            if(!data){
+                throw {msg: 'ERROR! Not Found',status: 404}
+            }
+            else{
+                res.status(200).json({msg:'successfully edit todo'})
+            }
+        })
+        .catch(err=>{
+            next(err)
+        })
     }
-    static deleteOne(req,res){
+    static deleteOne(req,res,next){
         const id = req.params.id
         Todo.destroy({
             where:{
@@ -77,14 +77,14 @@ class TodoController{
         })
         .then(data=>{
             if(!data){
-                res.status(404).json({error: 'ERROR! Not Found'})
+                throw {msg: 'ERROR! Not Found',status: 404}
             }
             else{
-                res.status(200).json({data})
+                res.status(200).json({msg:'successfully delete todo'})
             }
         })
         .catch(err=>{
-            res.status(500).json({error: 'internal server error'})
+            next(err)
         })
     }
 }

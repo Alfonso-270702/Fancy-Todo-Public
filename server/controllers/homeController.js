@@ -4,57 +4,42 @@ const jwt = require('../helpers/jwt')
 
 class HomeController{
 
-    static register(req,res){
+    static register(req,res,next){
         const { name,email,password } = req.body
-        if(!name || !email || !password ){
-            res.status(400).json({error:`name or email or password  must be filled`})
-        }
-        else{
-            User.create({ name,email,password })
-            .then(data=>{
-                if(data.email){
-                    res.status(400).json({err:'email already exist'})
-                }
-                else{
-                    res.status(201).json({msg: `${data.name} successfully register`})
-                }
-            })
-            .catch(err=>{
-                res.status(500).json({error: 'internal server error'})
-            })
-        }
+        User.create({ name,email,password })
+        .then(data=>{
+            res.status(201).json({msg: `${data.name} successfully register`}) 
+        })
+        .catch(err=>{
+            next(err)
+        })
     }
 
-    static login(req,res){
+    static login(req,res,next){
         const { email, password } = req.body
-        if(!email || !password){
-            res.status(400).json({err:'email or password are wrong'})
-        }
-        else{
-            User.findOne({
-                where:{
-                    email
-                }
-            })
-            .then(data=>{
-                if(!data){
-                    res.status(400).json({err:'No user found'})
+        User.findOne({
+            where:{
+                email
+            }
+        })
+        .then(data=>{
+            if(!data){
+                throw {msg: 'No user found',status: 400}
+            }
+            else{
+                const hashedPassword = compare(password,data.password)
+                if(hashedPassword){
+                    const token = jwt.createToken({id: data.id,email: data.email})
+                    res.status(200).json({msg: `${data.name} successfully login`,token})
                 }
                 else{
-                    const hashedPassword = compare(password,data.password)
-                    if(hashedPassword){
-                        const token = jwt.createToken({email: data.email})
-                        res.status(200).json({msg: `${data.name} successfully login`,token})
-                    }
-                    else{
-                        res.status(400).json({err:'email or password are wrong'})
-                    }
+                    throw {msg: 'email or password are wrong',status: 400}
                 }
-            })
-            .catch(err=>{
-                res.status(500).json({err:'internal server error'})
-            })
-        }
+            }
+        })
+        .catch(err=>{
+            next(err)
+        })
     }
 
 }
