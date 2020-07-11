@@ -1,0 +1,79 @@
+body{
+    text-align: center;
+    background: #eeeeee;
+}
+
+label,p,h1 {
+    font-weight: bolder;
+    color: #00adb5;
+}
+
+/* ============= CLASS =============*/
+.edit-container{
+    background-color: rgba(8, 8, 8, 0.6);
+    padding: 40px;
+    border-radius: 10px;
+    width: 600px;
+}
+
+.api-container{
+    margin-left: 200px;
+}
+
+.create-container{
+    background-color: rgba(8, 8, 8, 0.6);
+    padding: 40px;
+    border-radius: 10px;
+    width: 600px;
+}
+
+/* ============= ID ============= */
+#login{
+    background: url(./img/bg1.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#login-container {
+    background-color: #303841;
+    padding: 40px;
+    border-radius: 10px;
+}
+
+#register {
+    background: url(./img/bg1.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#register-container {
+    background-color: #303841;
+    padding: 40px;
+    border-radius: 10px;
+    width: 500px;
+}
+
+#edit-page{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#btn-holiday{
+    margin-left: 125px;
+}
+
+#create-page{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

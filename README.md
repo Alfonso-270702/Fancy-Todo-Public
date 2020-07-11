@@ -35,13 +35,6 @@ Login if user want to CRUD todo list
 - email (string)
 - password (string)
 
-## Request Header
-``` javascript
-{
-   "token" : "<user_token>" 
-}
-```
-
 ### Response
 Status 200
 ``` javascript
@@ -60,12 +53,13 @@ Get user todo list
 - description (string)
 - status (string)
 - due_date (string)
+- imageURL (string)
 - userId (integer)
 
 ## Request Header
 ``` javascript
 {
-   "userId" : "<user_userId>" 
+   "token" : "<user_token>" 
 }
 ```
 
@@ -74,7 +68,7 @@ Status 200
 ``` javascript
 {
     "data": {
-        "id": "userId",
+        "id": "user_id",
         "title": "Makan vitamin nanti",
         "description": "Jangan lupa makan vitamin",
         "status": "Belum terlaksana",
@@ -111,11 +105,12 @@ Create todo list
 - description (string)
 - status (string)
 - due_date (string)
+- imageURL (string)
 
 ## Request Header
 ``` javascript
 {
-   "userId" : "<user_userId>" 
+   "token" : "<user_token>" 
 }
 ```
 
@@ -123,11 +118,12 @@ Create todo list
 ``` javascript
 {
     "data": {
-        "id": "userId",
-        "title": "Makan vitamin nanti",
-        "description": "Jangan lupa makan vitamin",
-        "status": "Belum terlaksana",
-        "due_date": "Rabu, 8 Juli 2020"
+        "id": (string),
+        "title": (string),
+        "description": (string),
+        "status": (string),
+        "due_date": (string),
+        "imageURL": (string)
     }
 }
 ```
@@ -172,12 +168,17 @@ Find one user todo list
 ### Properties
 - id (integer)
 
-## Request Body
+## Request Header
 ``` javascript
 {
-    "data": {
-        "id": "userId",
-    }
+   "token" : "<user_token>" 
+}
+```
+
+## Request Params
+``` javascript
+{
+   "id" : "<userId>" 
 }
 ```
 
@@ -224,6 +225,14 @@ Update user todo list
 - status (string)
 - due_date (string)
 - id (integer)
+- imageURL (string)
+
+## Request Header
+``` javascript
+{
+   "token" : "<user_token>" 
+}
+```
 
 ## Request Body
 ``` javascript
@@ -233,7 +242,8 @@ Update user todo list
         "title": "Makan vitamin nanti",
         "description": "Jangan lupa makan vitamin",
         "status": "Belum terlaksana",
-        "due_date": "Rabu, 8 Juli 2020"
+        "due_date": "Rabu, 8 Juli 2020",
+        "imageURL": "https://www.jejakpiknik.com/wp-content/uploads/2019/03/bali-1-630x380.jpg"
     }
 }
 ```
@@ -278,6 +288,13 @@ Delete user todo list
 ### Properties
 - id (integer)
 
+## Request Header
+``` javascript
+{
+   "token" : "<user_token>" 
+}
+```
+
 ## Request Params
 ``` javascript
 {
@@ -307,6 +324,57 @@ Status 404
       "ERROR! Not Found"
     ]
 }
+```
+
+Status 500
+``` javascript
+{
+    "errors": {
+      "internal server error"
+    }
+}
+```
+<br>
+
+## GET /calender-holiday/:country/:year
+Get Holiday date and information
+
+### Properties
+- API KEY (string)
+- country (string)
+- year (string)
+
+## Request Header
+``` javascript
+{
+   "token" : "<user_token>" 
+}
+```
+
+## Request Params
+``` javascript
+{
+  "country": "search_country",
+  "year": "search_year"
+}
+```
+
+### Response
+Status 200
+``` javascript
+[
+  {
+    "id": "4836c8d89ce554b5a799a18b27f633ac",
+    "name": "New Year's Day",
+    "notes": null,
+    "date": "2020-01-01",
+    "start": "2020-01-01T00:00:00Z",
+    "end": "2020-01-01T23:59:59Z",
+    "type": "Public Holiday",
+    "public": true,
+    "country": "ID"
+  }
+] 
 ```
 
 Status 500

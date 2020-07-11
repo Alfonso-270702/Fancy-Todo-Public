@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-signin-client_id" content="1042655448078-k7ra76oag30mjef37tjfaefvmi8l6sf2.apps.googleusercontent.com">
+    <title>Fancy Todo App</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
+    <!-- Bootstrap Style -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- NavBar dari Bootstrap -->
+    <div>
+        <section id="navbar">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <div class="container">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-todo"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbar-todo">
+                        <a class="navbar-brand" onclick="homePage()">Home</a>
+                        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                            <li class="nav-item active">
+                                <a class="nav-link" onclick="addbtn()">Create</a>
+                            </li>
+                            <li class="nav-item active">
+                                <a class="nav-link" onclick="calenderbtn()">Calender</a>
+                            </li>
+                        </ul>
+                        <div class="my-2 mr-4 my-lg-0">
+                            <button class="btn btn-light my-2 my-sm-0"  onclick="logout()">Logout</button>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </section>
+
+    <!-- Login Page -->
+    <section id="login">
+        <div id="login-container">
+            <h1 title-header text-center>Welcome to Fancy Todo</h1>
+            <form onsubmit="login(event)" class="my-4">
+                <div class="form-group">
+                    <input type="email" class="form-control w-75 pl-3 mx-auto border-0" name="email"
+                    id="email-login" placeholder="example@email.com" ><br>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control pl-3 w-75 mx-auto border-0" name="password"
+                    id="password-login" placeholder="password" ><br>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <button id="btn-login" type="submit" class="btn btn-primary w-75 rounded-lg">Login</button>
+                </div>
+            </form>
+            <p class="text-center">OR</p>
+            <div class="d-flex justify-content-center">
+                <div class="g-signin2 mb-3 rounded-lg" data-onsuccess="onSignIn"></div>
+            </div>
+            <div class="d-flex justify-content-center">
+                <p onclick="registerbtn()">Don't have account
+                    ? click here</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Register Page -->
+    <section id="register">
+        <div class="text-center" id="register-container">
+            <h1 class="title-header text-center">Register To Enjoy The Todo List</h1>
+            <form onsubmit="register(event)" class="my-4">
+                <div class="form-group">
+                    <label for="fullname">Full Name</label>
+                    <input type="text" class="form-control w-75 mx-auto" name="name" id="fullname"
+                        placeholder="John Doe" />
+                </div>
+                <div class="form-group">
+                    <label for="email-register">Email</label>
+                    <input type="email" class="form-control w-75 mx-auto" name="email" id="email-register"
+                        placeholder="example@email.com" />
+                </div>
+                <div class="form-group">
+                    <label for="password-register">Password</label>
+                    <input type="password" class="form-control w-75 mx-auto" name="password"
+                        id="password-register" placeholder="password" />
+                </div>
+                <div class="d-flex justify-content-center">
+                    <button id="btn-register" type="submit" class="btn btn-primary w-75 rounded-lg">Register</button>
+                </div>
+            </form>
+            <p class="text-center" style="cursor: pointer;" onclick="auth()">Already have account ?</p>
+        </div>
+    </section>
+
+    <!-- Home Page -->
+    
+    <section id="home-page">
+        <h1 class="text-center my-5">Your Todo List... </h1>
+        <div class="row row-cols-1 row-cols-md-2 home-container container mx-auto my-5">
+        </div>
+    </section>
+    
+    <!-- Edit Page -->
+    <section id="edit-page">
+        <div class="text-center my-5 edit-container">
+            <h2 class="text-center">Edit Your Todo List </h2>
+            <form onsubmit="editData(event)" class="my-4">
+                <div class="form-group">
+                    <input type="text" class="form-control w-75 pl-3 mx-auto border-0" name="title"
+                    id="title" placeholder="insert title" ><br>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control pl-3 w-75 mx-auto border-0" name="description"
+                    id="description" placeholder="insert description" ><br>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control w-75 pl-3 mx-auto border-0" name="status"
+                    id="status" placeholder="insert status" ><br>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control pl-3 w-75 mx-auto border-0" name="due_date"
+                    id="due_date" placeholder="insert due date" ><br>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control pl-3 w-75 mx-auto border-0" name="imageURL"
+                    id="imageURL" placeholder="insert imageURL" ><br>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <button id="btn-edit" type="submit" class="btn btn-primary w-75 rounded-lg">Edit Todo</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Create Page -->
+    <section id="create-page">
+        <div class="text-center my-5 create-container">
+            <h2 class="text-center">Create Your Own Todo List </h2>
+            <form onsubmit="addData(event)" class="my-4">
+                <div class="form-group">
+                    <input type="text" class="form-control w-75 pl-3 mx-auto border-0" name="title"
+                    id="title-create" placeholder="insert title" ><br>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control pl-3 w-75 mx-auto border-0" name="description"
+                    id="description-create" placeholder="insert description" ><br>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control w-75 pl-3 mx-auto border-0" name="status"
+                    id="status-create" placeholder="insert status" ><br>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control pl-3 w-75 mx-auto border-0" name="due_date"
+                    id="due_date-create" placeholder="insert due date" ><br>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control pl-3 w-75 mx-auto border-0" name="imageURL"
+                    id="imageURL-create" placeholder="insert imageURL" ><br>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <button id="btn-add" type="submit" class="btn btn-primary w-75 rounded-lg">Add Todo</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Form Search Calender -->
+    <section id="calender-form">
+        <div class="text-center my-5 calender-container ">
+            <h2 class="text-center"> Search Holiday Calender</h2>
+            <form onsubmit="getHoliday(event)" class="my-4">
+                <div class="form-row my-5">
+                    <div class="form-group col-md-6 ">
+                        <input type="text" class="form-control w-75 pl-3 mx-auto border-0" name="country-code"
+                        id="country-code" placeholder="insert country code" ><br>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <input type="text" class="form-control w-75 pl-3 mx-auto border-0" name="calender-year"
+                        id="calender-year" placeholder="insert year" ><br>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <button id="btn-holiday" type="submit" class="btn btn-primary w-75 rounded-lg">Search Holiday</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Third API -->
+    <section id="api-page">
+        <div class="api-container container mx-auto my-5">
+            <table class="table table-responsive">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>No</th>
+                        <th>Name</th>
+                        <th>Date</th>
+                        <th>Public</th>
+                        <th>Country</th>
+                        <th>Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <script src="index.js"></script>
+</body>
+</html>

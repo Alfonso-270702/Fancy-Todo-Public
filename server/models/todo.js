@@ -68,7 +68,16 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    userId: DataTypes.INTEGER
+    userId: DataTypes.INTEGER,
+    imageURL: {
+      type: DataTypes.STRING,
+      validate:{
+        notEmpty:{
+          args: true,
+          msg: 'Fill the image url'
+        }
+      }
+    }
   }, {
     sequelize,
     modelName: 'Todo',

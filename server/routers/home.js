@@ -5,5 +5,7 @@ route.post('/register',HomeController.register)
 
 route.post('/login',HomeController.login)
 
+route.post('/googlelogin',HomeController.googleLogin)
+
 
 module.exports = route

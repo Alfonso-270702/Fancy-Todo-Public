@@ -3,9 +3,9 @@ const { Todo } = require('../models')
 class TodoController{
 
     static create(req,res,next){
-        const {title,description,status,due_date} = req.body
+        const {title,description,status,due_date,imageURL} = req.body
         let userId = req.userData.id
-        Todo.create({title,description,status,due_date,userId})
+        Todo.create({title,description,status,due_date,userId,imageURL})
         .then(data=>{
             res.status(201).json({data})
         })
@@ -50,8 +50,8 @@ class TodoController{
     }
 
     static editOne(req,res,next){
-        const {title,description,status,due_date} = req.body
-        Todo.update({title,description,status,due_date},{
+        const {title,description,status,due_date,imageURL} = req.body
+        Todo.update({title,description,status,due_date,imageURL},{
             where:{
                 id: req.params.id
             }

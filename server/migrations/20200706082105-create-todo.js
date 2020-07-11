@@ -20,6 +20,9 @@ module.exports = {
       due_date: {
         type: Sequelize.STRING
       },
+      imageURL: {
+        type: Sequelize.STRING
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
