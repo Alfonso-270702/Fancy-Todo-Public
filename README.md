@@ -26,6 +26,34 @@ Status 201
     "msg": "Jane Doe successfully register"
   }
 ```
+Status 400
+``` javascript
+{
+    "errors": {
+      "Name can't be empty,email can't be empty,password can't be empty"
+    }
+  or
+    "errors": {
+      "Name can't be empty"
+    }
+  or
+    "errors": {
+      "email can't be empty"
+    }
+  or
+    "errors": {
+      "password can't be empty"
+    }  
+}
+```
+Status 500
+``` javascript
+{
+    "errors": {
+      "internal server error"
+    }
+}
+```
 <br>
 
 ## POST /login
@@ -41,6 +69,29 @@ Status 200
 {
   "msg": "Jane Doe successfully login",
   "token": "<user_token>"
+}
+```
+Status 400
+``` javascript
+{
+    "errors": {
+      "email or password are wrong"
+    }
+}
+or
+{
+    "errors": {
+      "No user found"
+    }
+}
+```
+
+Status 500
+``` javascript
+{
+    "errors": {
+      "internal server error"
+    }
 }
 ```
 <br>
@@ -375,6 +426,35 @@ Status 200
     "country": "ID"
   }
 ] 
+```
+
+Status 500
+``` javascript
+{
+    "errors": {
+      "internal server error"
+    }
+}
+```
+<br>
+
+## POST /googlelogin
+Register with google 
+
+### Request Body
+``` javascript
+{
+  "id_token" = (string)
+}
+```
+
+### Response
+
+Status 200
+``` javascript
+  {
+    "token": (string)
+  }
 ```
 
 Status 500

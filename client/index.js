@@ -178,7 +178,7 @@ function fetchData(){
         $('.home-container').empty()
         for (let i = 0; i <data.data.length; i++) {
             $('.home-container').append(`
-            <div class="col mb-4">
+            <div class="col mb-4" data-todoId="${data.data[i].id}">
                 <div class="card">
                     <img src="${data.data[i].imageURL}" class="card-img-top" alt="...">
                     <div class="card-body">
@@ -201,6 +201,10 @@ function fetchData(){
             text: `${err.responseJSON.errors}`
         })
     })
+}
+
+function removeTodo(todoId){
+    $(`div[data-todoId="${todoId}"`).remove()
 }
 
 //Menambahkan data lalu kalau berhasil akan masuk ke looping data
@@ -338,7 +342,8 @@ function deleteTodo(){
     })
     .done(_=>{
         homePage()
-        fetchData()
+        // fetchData()
+        removeTodo(todoId)
     })
     .fail(err=>{
         Swal.fire({
