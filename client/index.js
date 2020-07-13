@@ -67,7 +67,7 @@ function login(event){
     event.preventDefault()
     let email = $('#email-login').val()
     let password = $('#password-login').val()
-    console.log(email, password)
+    // console.log(email, password)
     $.ajax({
         url: `${basicUrl}/login`,
         method: 'POST',
