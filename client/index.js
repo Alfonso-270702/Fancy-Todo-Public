@@ -1,4 +1,4 @@
-const basicUrl = 'http://localhost:3000'
+const basicUrl = 'https://fancy-todo-api-server.herokuapp.com'
 let todoId = null
 
 $(document).ready(function(){
